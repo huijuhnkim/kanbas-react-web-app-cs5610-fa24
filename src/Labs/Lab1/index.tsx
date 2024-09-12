@@ -27,7 +27,8 @@ export default function Lab1() {
             <img id='wd-samplepic'
                  src="../../../public/image/sample-picture.jpg"
                  width="1486"
-                 height="1041"/>
+                 height="1041"
+                 alt="sample"/>
 
 
         </div>
