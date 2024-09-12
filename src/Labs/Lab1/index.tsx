@@ -25,7 +25,7 @@ export default function Lab1() {
 
             <h2> 2. 10 Image Tag </h2>
             <img id='wd-samplepic'
-                 src="../../../public/image/sample-picture.jpg"
+                 src="sample-picture.jpg"
                  width="1486"
                  height="1041"
                  alt="sample"/>
