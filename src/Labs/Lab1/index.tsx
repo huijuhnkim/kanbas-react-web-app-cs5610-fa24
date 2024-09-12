@@ -23,6 +23,13 @@ export default function Lab1() {
 
             <h2> 2. 8 </h2>
 
+            <h2> 2. 10 Image Tag </h2>
+            <img id='wd-samplepic'
+                 src="../../../public/image/sample-picture.jpg"
+                 width="1486"
+                 height="1041"/>
+
+
         </div>
     );
 }
