@@ -15,6 +15,8 @@ export default function Index() {
                 <Route path="Lab1" element={<Lab1/>}/>
                 <Route path="Lab2" element={<Lab2/>}/>
                 <Route path="Lab3" element={<Lab3/>}/>
+                <a href={"https://github.com/huijuhnkim/kanbas-react-web-app-cs5610-fa24"}
+                   id={"wd-github"} target="_blank" rel="noreferrer"> GitHub </a>
             </Routes>
         </div>
     )
