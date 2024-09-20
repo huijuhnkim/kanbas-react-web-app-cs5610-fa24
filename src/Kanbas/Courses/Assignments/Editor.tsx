@@ -1,5 +1,3 @@
-import {text} from "node:stream/consumers";
-
 export default function AssignmentEditor() {
     return (
         <div id="wd-assignments-editor">
