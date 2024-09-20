@@ -8,7 +8,9 @@ import Lab3 from './Lab3'
 export default function Index() {
     return (
         <div>
-            <h1>Labs by: Hui Juhn Kim</h1>
+            <h1>Labs</h1>
+            <h3>Name: Hui Juhn Kim</h3>
+            <h3>Section Number: 02</h3>
             <TOC/>
             <Routes>
                 <Route path="/" element={<Navigate to="Labs"/>}/>
@@ -16,8 +18,6 @@ export default function Index() {
                 <Route path="Lab2" element={<Lab2/>}/>
                 <Route path="Lab3" element={<Lab3/>}/>
             </Routes>
-            <a href={"https://github.com/huijuhnkim/kanbas-react-web-app-cs5610-fa24"}
-               id={"wd-github"} target="_blank" rel="noreferrer"> GitHub </a>
         </div>
     )
 }
