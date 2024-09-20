@@ -14,6 +14,7 @@ export default function AssignmentEditor() {
             <br/>
             <br/>
             <table>
+            <tbody>
                 <tr>
                     <td align="right" valign="top">
                         <label htmlFor="wd-points">Points</label>
@@ -22,7 +23,7 @@ export default function AssignmentEditor() {
                         <input id="wd-points" value={100}/>
                     </td>
                 </tr>
-                <br/>
+
                 <tr>
                     <td align="right" valign="top">
                         <label htmlFor="wd-group">Assignment Group</label>
@@ -34,7 +35,7 @@ export default function AssignmentEditor() {
                         </select>
                     </td>
                 </tr>
-                <br/>
+
                 <tr>
                     <td align="right" valign="top">
                         <label htmlFor="wd-display-grade-as">Display Grade as </label>
@@ -46,7 +47,7 @@ export default function AssignmentEditor() {
                         </select>
                     </td>
                 </tr>
-                <br/>
+
                 <tr>
                     <td align="right" valign="top">
                         <label htmlFor="wd-submission-type">Submission Type </label>
@@ -69,7 +70,7 @@ export default function AssignmentEditor() {
                         <label htmlFor={"wd-file-upload"}>File Uploads </label><br/>
                     </td>
                 </tr>
-                <br/>
+
                 <tr>
                     <td align="right" valign="top">
                         <label htmlFor="wd-display-grade-as">Assign </label>
@@ -85,7 +86,8 @@ export default function AssignmentEditor() {
                         <input type={"date"} name={"wd-due-date"} value={"2024-05-13"}/>
                         <br/><br/>
                         <table>
-                            <tr>
+                        <tbody>
+                        <tr>
                                 <td>
                                     <label htmlFor={"wd-available-from"}>Available from</label><br/>
                                     <input type={"date"} name={"wd-available-from"} value={"2024-05-06"}/>
@@ -94,10 +96,12 @@ export default function AssignmentEditor() {
                                     <label htmlFor={"wd-available-until"}>Until</label><br/>
                                     <input type={"date"} name={"wd-available-until"} value={"2024-05-20"}/>
                                 </td>
-                            </tr>
+                        </tr>
+                        </tbody>
                         </table>
                     </td>
                 </tr>
+            </tbody>
             </table>
             <hr/>
 
