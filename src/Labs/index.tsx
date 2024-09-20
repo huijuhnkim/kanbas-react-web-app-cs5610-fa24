@@ -8,7 +8,7 @@ import Lab3 from './Lab3'
 export default function Index() {
     return (
         <div>
-            <h1>Labs</h1>
+            <h1>Labs by: Hui Juhn Kim</h1>
             <TOC/>
             <Routes>
                 <Route path="/" element={<Navigate to="Labs"/>}/>
