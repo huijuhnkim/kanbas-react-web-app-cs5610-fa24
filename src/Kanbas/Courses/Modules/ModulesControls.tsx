@@ -16,16 +16,19 @@ export default function ModulesControls() {
                 </button>
                 <ul className="dropdown-menu">
                     <li>
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a id="wd-publish-all-modules-and-items-btn" className="dropdown-item" href="#">
                             <GreenCheckmark/>
                             Publish all modules and items</a>
                     </li>
                     <li>
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a id="wd-publish-modules-only-button" className="dropdown-item" href="#">
                             <GreenCheckmark/>
                             Publish modules only</a>
                     </li>
                     <li>
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a id="wd-unpublish-all-modules-and-items-btn" className="dropdown-item" href="#">
                             <AiOutlineStop size={21}/>
                             Unpublish all modules and items
@@ -33,6 +36,7 @@ export default function ModulesControls() {
                     </li>
 
                     <li>
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a id="wd-unpublish-modules-only-btn" className="dropdown-item" href="#">
                             <AiOutlineStop size={21}/>
                             Unpublish modules only
