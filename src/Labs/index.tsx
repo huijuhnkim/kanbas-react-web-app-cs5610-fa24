@@ -9,6 +9,8 @@ export default function Index() {
     return (
         <div>
             <h1>Labs</h1>
+            <h3>Name: Hui Juhn Kim</h3>
+            <h3>Section Number: 02</h3>
             <TOC/>
             <Routes>
                 <Route path="/" element={<Navigate to="Labs"/>}/>
