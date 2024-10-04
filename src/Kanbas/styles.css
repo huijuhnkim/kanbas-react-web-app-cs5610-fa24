@@ -35,6 +35,31 @@ body * {font-family: Lato, sans-serif; }
     border-left: 3px solid green !important;
 }
 
+.rounded-corners-all-around {
+    border-radius: 50px;
+}
+
+.kanbas-grid-col-left-sidebar {
+    width: 10%;
+    float: left;
+}
+
+.kanbas-grid-col-main-content {
+    width: 80%;
+    float: left;
+}
+
+.kanbas-grid-col-right-sidebar {
+    width: 10%;
+    float: left;
+}
+
+.kanbas-assignment-subtext {
+    color: gray;
+    font-size: 15px;
+}
+
+
 
 /* FONTS */
 .lato-thin {
