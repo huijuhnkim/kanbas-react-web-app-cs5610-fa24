@@ -1,12 +1,19 @@
 import {CiSearch} from "react-icons/ci";
 import {FaPlus} from "react-icons/fa6";
 import {BsGripVertical} from "react-icons/bs";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import {PiNotePencil} from "react-icons/pi";
 import {Link} from "react-router-dom";
+import {FaCheckCircle, FaEllipsisV} from "react-icons/fa";
+import {assignments} from "../../Database";
+import {useParams} from "react-router";
 
 export default function Assignments() {
+    const { cid } = useParams();
+    const assignmentList = assignments.filter(
+        (assignment) => assignment.course === cid
+    );
+
     return (
         <div id="wd-assignments">
 
@@ -30,76 +37,42 @@ export default function Assignments() {
 
                 </div>
             </div>
+
             <br/>
             <ul id="wd-modules" className="list-group rounded-0">
                 <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
                     <div className="wd-title p-3 ps-2 bg-secondary">
                         <BsGripVertical className="me-2 fs-3"/> ASSIGNMENTS
                         <AssignmentControlButtons/></div>
-                    <ul className="wd-lessons list-group rounded-0">
-                        <li className="wd-grid-row list-group-item p-2 ps-2">
-                            <div className={"kanbas-grid-col-left-sidebar"}>
-                                <BsGripVertical className="me-2 fs-3"/> <PiNotePencil color={"green"}/>
-                            </div>
-                            <div className={"kanbas-grid-col-main-content"}>
-                                <Link to={"/Kanbas/Courses/5200/Assignments/Editor"}
-                                      className={"text-body text-decoration-none"}>
-                                    A1
-                                </Link>
-                                <div className={"kanbas-assignment-subtext"}>
-                                    <span className={"text-danger"}><b>Multiple Modules</b></span>
-                                    &ensp; | &ensp; <b>Not Available</b> until May 6 at 12:00am
-                                    &ensp; | &ensp; <b>Due</b> May 13 at 11:59pm
-                                    &ensp; | &ensp; 100 pts
+
+                    <ul className="list-group">
+                        {assignmentList.map((assignment) => (
+                            <li className="list-group-item wd-flex-row-container flex-align-items-stretch">
+                                <div className={"wd-width-75px"}>
+                                    <BsGripVertical className="me-2"/>
+                                    <PiNotePencil color={"green"}/>
                                 </div>
-                            </div>
+                                <div className={"flex-grow-1"}>
+                                    <Link
+                                        className="text-body-emphasis text-decoration-none"
+                                        to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                        {assignment.title} <br/>
+                                        <div className={"kanbas-text-small"}>
+                                            <span className={"text-danger"}><b>{assignment.modules}</b></span> &ensp; | &ensp;
+                                            <b>Not Available until:</b> {assignment.postdate} &ensp; | &ensp;
+                                            <b>Due: </b> {assignment.due} &ensp; | &ensp;
+                                            {assignment.points} pts
 
-                            <LessonControlButtons/>
-                        </li>
-                    </ul>
-
-                    <ul className="wd-lessons list-group rounded-0">
-                        <li className="wd-grid-row list-group-item p-2 ps-2">
-                            <div className={"kanbas-grid-col-left-sidebar"}>
-                                <BsGripVertical className="me-2 fs-3"/> <PiNotePencil color={"green"}/>
-                            </div>
-                            <div className={"kanbas-grid-col-main-content"}>
-                                <Link to={"/Kanbas/Courses/5200/Assignments/Editor"}
-                                      className={"text-body text-decoration-none"}>
-                                    A2
-                                </Link>
-                                <div className={"kanbas-assignment-subtext"}>
-                                    <span className={"text-danger"}><b>Multiple Modules</b></span>
-                                    &ensp; | &ensp; <b>Not Available</b> until May 6 at 12:00am
-                                    &ensp; | &ensp; <b>Due</b> May 13 at 11:59pm
-                                    &ensp; | &ensp; 100 pts
+                                        </div>
+                                    </Link>
                                 </div>
-                            </div>
 
-                            <LessonControlButtons/>
-                        </li>
-                    </ul>
-
-                    <ul className="wd-lessons list-group rounded-0">
-                        <li className="wd-grid-row list-group-item p-2 ps-2">
-                            <div className={"kanbas-grid-col-left-sidebar"}>
-                                <BsGripVertical className="me-2 fs-3"/> <PiNotePencil color={"green"}/>
-                            </div>
-                            <div className={"kanbas-grid-col-main-content"}>
-                                <Link to={"/Kanbas/Courses/5200/Assignments/Editor"}
-                                      className={"text-body text-decoration-none"}>
-                                    A3
-                                </Link>
-                                <div className={"kanbas-assignment-subtext"}>
-                                    <span className={"text-danger"}><b>Multiple Modules</b></span>
-                                    &ensp; | &ensp; <b>Not Available</b> until May 6 at 12:00am
-                                    &ensp; | &ensp; <b>Due</b> May 13 at 11:59pm
-                                    &ensp; | &ensp; 100 pts
-                                </div>
-                            </div>
-
-                            <LessonControlButtons/>
-                        </li>
+                                <span className="float-end">
+                                <FaCheckCircle className="text-success"/>
+                                <FaEllipsisV className="ms-2"/>
+                                </span>
+                            </li>
+                        ))}
                     </ul>
                 </li>
             </ul>
