@@ -1,20 +1,37 @@
 import {FaCalendar} from "react-icons/fa";
 import {assignments} from "../../Database";
 import {useLocation} from "react-router-dom";
+import {useParams} from "react-router";
 
 export default function AssignmentEditor() {
+    const { cid } = useParams();
     const { pathname } = useLocation();
     const assignmentList = assignments.filter((assignment) => pathname.includes(assignment._id));
+
+    const assignment = assignments.find(assignment => assignment._id === cid) || {
+        _id: new Date().getTime().toString(),
+        title: "New Assignment",
+        course: cid,
+        modules: "Multiple Modules",
+        postdate: "May 6 at 12:00am",
+        due: "May 13 at 11:59pm",
+        points: "100"
+    };
 
     return (
         <div>
             <label htmlFor={"wd-assignment-name"} className={"pb-1"}> Assignment Name</label>
-            {assignmentList.map((assignment) => (
-                <input className={"form-control"}
-                       id={"wd-assignment-name"}
-                       value={`${pathname.includes(assignment._id) ? assignment.title : ""}`}>
-                </input>
-            ))}
+            {/*{assignmentList.map((assignment) => (*/}
+            {/*    <input className={"form-control"}*/}
+            {/*           id={"wd-assignment-name"}*/}
+            {/*           value={`${pathname.includes(assignment._id) ? assignment.title : ""}`}>*/}
+            {/*    </input>*/}
+            {/*))}*/}
+
+            <input className={"form-control"}
+                   id={"wd-assignment-name"}
+                   value={assignment.title}>
+            </input>
 
             <textarea id={"wd-assignment-description"}
                       className={"form-control mt-3"}

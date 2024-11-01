@@ -14,6 +14,8 @@ export default function Assignments() {
         (assignment) => assignment.course === cid
     );
 
+
+
     return (
         <div id="wd-assignments">
 
@@ -30,7 +32,7 @@ export default function Assignments() {
                     <button id="wd-add-assignment-group"
                             className={"btn btn-secondary me-1"}><FaPlus/> Group
                     </button>
-                    <Link to={"/Kanbas/Courses/5200/Assignments/Editor"}>
+                    <Link to={`/Kanbas/Courses/${cid}/Assignments/Editor`}>
                         <button id="wd-add-assignment"
                                 className={"btn  btn-danger"}> <FaPlus/> Assignment</button>
                     </Link>
