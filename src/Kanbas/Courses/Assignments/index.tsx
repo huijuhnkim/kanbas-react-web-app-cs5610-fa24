@@ -64,7 +64,7 @@ export default function Assignments() {
                                     <FaCheckCircle className="text-success me-3"/>
                                     <IoEllipsisVertical className="ms-2"/>
 
-                                    <DeleteAssignmentDialog assignment={assignment}/>
+                                    <DeleteAssignmentDialog assignmentId={assignment._id}/>
                                 </span>
                             </li>
                         ))}

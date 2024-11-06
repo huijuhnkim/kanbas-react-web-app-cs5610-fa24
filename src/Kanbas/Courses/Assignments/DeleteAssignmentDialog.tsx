@@ -2,7 +2,7 @@ import {useDispatch} from "react-redux";
 import {deleteAssignment} from "../Assignments/reducer";
 
 export default function DeleteAssignmentDialog(
-    { assignment } : {assignment: any}
+    { assignmentId } : {assignmentId: String}
 ) {
     const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export default function DeleteAssignmentDialog(
                             Cancel
                         </button>
                         <button onClick={() => {
-                            dispatch(deleteAssignment(assignment));
+                            dispatch(deleteAssignment(assignmentId));
                         }}
                                 type="button"
                                 data-bs-dismiss="modal"
