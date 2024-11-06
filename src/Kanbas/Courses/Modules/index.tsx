@@ -18,7 +18,6 @@ export default function Modules() {
 
     return (
         <div>
-
             <ModulesControls moduleName={moduleName}
                              setModuleName={setModuleName}
                              addModule={() => {

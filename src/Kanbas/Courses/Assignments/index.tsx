@@ -1,52 +1,43 @@
-import {CiSearch} from "react-icons/ci";
-import {FaPlus} from "react-icons/fa6";
+
 import {BsGripVertical} from "react-icons/bs";
-import AssignmentControlButtons from "./AssignmentControlButtons";
 import {PiNotePencil} from "react-icons/pi";
+import {FaCheckCircle, FaTrash} from "react-icons/fa";
+import {IoEllipsisVertical} from "react-icons/io5";
+
+import AssignmentControlButtons from "./AssignmentControlButtons";
 import {Link} from "react-router-dom";
-import {FaCheckCircle, FaEllipsisV} from "react-icons/fa";
-import {assignments} from "../../Database";
+
 import {useParams} from "react-router";
+import {useDispatch} from "react-redux";
+import AssignmentControlBar from "./AssignmentControlBar";
+import {useSelector} from "react-redux";
+import {deleteAssignment} from "./reducer";
+import DeleteAssignmentDialog from "./DeleteAssignmentDialog";
+
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignmentList = assignments.filter(
-        (assignment) => assignment.course === cid
+    const dispatch = useDispatch();
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+
+    const courseAssignment: any = assignments.filter(
+        (assignment: any) => assignment.course === cid
     );
 
     return (
+
         <div id="wd-assignments">
-
-            <div className={"row"}>
-                <div className={"col input-group w-25 justify-content-lg-start"}>
-                    <span className={"input-group-text"}><CiSearch/></span>
-                    <input id="wd-search-assignment"
-                           placeholder={"Search..."}
-                           className={"form-control mr-sm-2 w-25"}
-                           type={"search"}/>
-                </div>
-
-                <div className={"col d-flex justify-content-end"}>
-                    <button id="wd-add-assignment-group"
-                            className={"btn btn-secondary me-1"}><FaPlus/> Group
-                    </button>
-                    <Link to={"/Kanbas/Courses/5200/Assignments/Editor"}>
-                        <button id="wd-add-assignment"
-                                className={"btn  btn-danger"}> <FaPlus/> Assignment</button>
-                    </Link>
-
-                </div>
-            </div>
+            <AssignmentControlBar/>
 
             <br/>
             <ul id="wd-modules" className="list-group rounded-0">
                 <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
                     <div className="wd-title p-3 ps-2 bg-secondary">
-                        <BsGripVertical className="me-2 fs-3"/> ASSIGNMENTS
+                        <BsGripVertical className="me-1 fs-3"/> ASSIGNMENTS
                         <AssignmentControlButtons/></div>
 
                     <ul className="list-group">
-                        {assignmentList.map((assignment) => (
+                        {courseAssignment.map((assignment: any) => (
                             <li className="list-group-item wd-flex-row-container flex-align-items-stretch">
                                 <div className={"wd-width-75px"}>
                                     <BsGripVertical className="me-2"/>
@@ -59,23 +50,29 @@ export default function Assignments() {
                                         {assignment.title} <br/>
                                         <div className={"kanbas-text-small"}>
                                             <span className={"text-danger"}><b>{assignment.modules}</b></span> &ensp; | &ensp;
-                                            <b>Not Available until:</b> {assignment.postdate} &ensp; | &ensp;
+                                            <b>Not Available until:</b> {assignment.availableFrom} &ensp; | &ensp;
                                             <b>Due: </b> {assignment.due} &ensp; | &ensp;
                                             {assignment.points} pts
-
                                         </div>
                                     </Link>
                                 </div>
 
                                 <span className="float-end">
-                                <FaCheckCircle className="text-success"/>
-                                <FaEllipsisV className="ms-2"/>
+                                    <FaTrash className="me-4"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#wd-delete-assignment-dialog"/>
+                                    <FaCheckCircle className="text-success me-3"/>
+                                    <IoEllipsisVertical className="ms-2"/>
+
+                                    <DeleteAssignmentDialog assignment={assignment}/>
                                 </span>
                             </li>
                         ))}
                     </ul>
                 </li>
             </ul>
+
+
         </div>
     );
 }

@@ -5,6 +5,6 @@ export default function AssignmentControlButtons() {
         <div className="float-end">
              &ensp;
             <BsPlus/> &nbsp; &ensp;
-            <IoEllipsisVertical className="fs-4" />
+            <IoEllipsisVertical className="fs-5" />
         </div>
     );}

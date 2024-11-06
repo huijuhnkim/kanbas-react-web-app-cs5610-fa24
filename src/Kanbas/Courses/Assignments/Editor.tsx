@@ -1,33 +1,51 @@
 import {FaCalendar} from "react-icons/fa";
-import {assignments} from "../../Database";
-import {useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {useLocation, useParams} from "react-router";
+import {addAssignment, updateAssignment} from "./reducer";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function AssignmentEditor() {
-    const { pathname } = useLocation();
-    const assignmentList = assignments.filter((assignment) => pathname.includes(assignment._id));
+
+    function isNewAssignment() {
+        console.log(`assignment ID: ${assignment._id}, aid: ${aid}`)
+        return (assignment._id !== aid)
+    }
+
+    function handleSave() {
+        if (isNewAssignment()) {
+            console.log("adding assignment...")
+            dispatch(addAssignment(assignment))
+        } else {
+            console.log("updating assignment...")
+            dispatch(updateAssignment(assignment))
+        }
+    }
+
+    const {cid} = useParams();
+    const {aid} = useParams();
+    const dispatch = useDispatch();
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    let assignment = assignments.find((assignment: any) => assignment._id === aid);
 
     return (
         <div>
-            <label htmlFor={"wd-assignment-name"} className={"pb-1"}> Assignment Name</label>
-            {assignmentList.map((assignment) => (
-                <input className={"form-control"}
-                       id={"wd-assignment-name"}
-                       value={`${pathname.includes(assignment._id) ? assignment.title : ""}`}>
-                </input>
-            ))}
+            <label htmlFor={"wd-assignment-name"} className={"pb-2"}> Assignment Name</label>
+
+            <input className={"form-control"}
+                   id={"wd-assignment-name"}
+                   placeholder={assignment.title}
+                   onChange={(e) => dispatch(updateAssignment({
+                       ...assignment, title: e.target.value
+                   }))}>
+            </input>
 
             <textarea id={"wd-assignment-description"}
-                      className={"form-control mt-3"}
+                      className={"form-control mt-4"}
                       rows={12}
-                      placeholder={"The assignment is available online\n\n" +
-                          "Submit a link to the landing page of your Web application running on Netlify.\n\n" +
-                          "The landing page should include the following:\n\n" +
-                          "• \tYour full name and section\n" +
-                          "• \tLinks to each of the lab assignments\n" +
-                          "• \tLink to the Kanbas application\n" +
-                          "• \tLinks to all relevant source code repositories\n\n" +
-                          "The Kanbas application should include a link to navigate back to the landing page."}>
-
+                      value={assignment.description}
+                      onChange={(e) => dispatch(updateAssignment({
+                          ...assignment, description: e.target.value
+                      }))}>
             </textarea>
 
             <form>
@@ -35,10 +53,12 @@ export default function AssignmentEditor() {
                     <label htmlFor={"wd-assignment-points"} className={"col-sm-2 col-form-label"}>
                         <span className={"float-end"}>Points</span> </label>
                     <div className={"col-sm-10"}>
-                        {assignmentList.map((assignment) => (
-                        <input type="number" className={"form-control"}
-                               value={`${pathname.includes(assignment._id) ? assignment.points : ""}`}/>
-                            ))}
+                        <input type="number"
+                               className={"form-control"}
+                               value={assignment.points}
+                               onChange={(e) => dispatch(updateAssignment({
+                                   ...assignment, points: e.target.value
+                               }))}/>
                     </div>
                 </div>
 
@@ -117,36 +137,66 @@ export default function AssignmentEditor() {
                             <b>Due</b>
                         </label>
                         <div className="input-group mb-3" id={"wd-assignment-due"}>
-                            {assignmentList.map((assignment) => (
                             <input type="text" className="form-control"
-                                   value={`${pathname.includes(assignment._id) ? assignment.due : ""}`}/>
-                                ))}
+                                   value={assignment.due}
+                                   onChange={(e) => dispatch(updateAssignment({
+                                       ...assignment, due: e.target.value
+                                   }))}/>
                             <span className="input-group-text"><FaCalendar/></span>
                         </div>
 
                         <div className="mt-3 row">
-                            <label htmlFor={"wd-assignment-from"}>
-                                <b>Available from</b>
-                            </label>
-                            <div className="col input-group mb-1 p-1" id={"wd-assignment-from"}>
-                                {assignmentList.map((assignment) => (
-                                <input type="text" className="form-control"
-                                       value={`${pathname.includes(assignment._id) ? assignment.postdate : ""}`}/>
-                                    ))}
-                                <span className="input-group-text"><FaCalendar/></span>
+                            <div className={"col md-6"}>
+                                <label htmlFor={"wd-assignment-from"}>
+                                    <b>Available from</b>
+                                </label>
+                                <div className="input-group" id={"wd-assignment-from"}>
+                                    <input type="text" className="form-control"
+                                           value={assignment.availableFrom}
+                                           onChange={(e) => dispatch(updateAssignment({
+                                               ...assignment, availableFrom: e.target.value
+                                           }))}/>
+                                    <span className="input-group-text"><FaCalendar/></span>
+                                </div>
                             </div>
-
-
-                            <div className="col input-group mb-1 p-1" id={"wd-assignment-until"}>
-                                <input type="text" className="form-control"/>
-                                <span className="input-group-text"><FaCalendar/></span>
+                            <div className={"col md-6"}>
+                                <label htmlFor={"wd-assignment-until"}>
+                                    <b>Until</b>
+                                </label>
+                                <div className="input-group" id={"wd-assignment-until"}>
+                                    <input type="text"
+                                           className="form-control"
+                                           value={assignment.availableUntil}
+                                           onChange={(e) => dispatch(updateAssignment({
+                                               ...assignment, points: e.target.value
+                                           }))}/>
+                                    <span className="input-group-text"><FaCalendar/></span>
+                                </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </form>
+            <hr/>
+            <div className={"col d-flex justify-content-end"}>
+
+            <Link to={`/Kanbas/Courses/${cid}/Assignments/`}>
+                    <button id="wd-add-assignment-group"
+                            className={"btn btn-secondary me-2"}>
+                        Cancel
+                    </button>
+                </Link>
+
+
+                <Link to={`/Kanbas/Courses/${cid}/Assignments/`}>
+                    <button id="wd-add-assignment-group"
+                            className={"btn btn-danger me-2"}
+                            onClick={handleSave}>
+                        Save
+                    </button>
+                </Link>
+
+            </div>
         </div>
     );
 }
