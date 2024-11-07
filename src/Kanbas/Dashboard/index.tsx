@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import * as db from "../Database";
 import { Link } from "react-router-dom";
 import {useState} from "react";
 import {enrollments} from "../Database";
