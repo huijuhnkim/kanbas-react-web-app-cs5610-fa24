@@ -22,6 +22,7 @@ export default function WorkingWithArraysAsynchronously() {
     useEffect(() => {
         fetchTodos();
     }, []);
+
     return (
         <div id="wd-asynchronous-arrays">
             <h3>Working with Arrays Asynchronously</h3>
