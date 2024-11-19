@@ -7,23 +7,12 @@ import Modules from "./Modules";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table";
-import {assignments} from "../Database";
 
 export default function Courses({courses}: {courses:any[]}) {
     const { cid } = useParams();
     const { pathname } = useLocation();
 
     const course = courses.find((course) => course._id === cid);
-
-    const newAssignment: any = {
-        _id: new Date().getTime().toString(),
-        title: "New Assignment",
-        course: cid,
-        modules: "Multiple Modules",
-        availableFrom: "2024-01-01",
-        due: "2024-01-01",
-        points: "100"
-    }
 
     return (
         <div id="wd-courses">

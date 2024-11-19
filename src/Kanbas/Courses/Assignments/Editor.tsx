@@ -1,6 +1,6 @@
 import {FaCalendar} from "react-icons/fa";
 import {Link} from "react-router-dom";
-import {useLocation, useParams} from "react-router";
+import { useParams} from "react-router";
 import {addAssignment, updateAssignment} from "./reducer";
 import {useDispatch, useSelector} from "react-redux";
 

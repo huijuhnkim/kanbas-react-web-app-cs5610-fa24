@@ -8,16 +8,13 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import {Link} from "react-router-dom";
 
 import {useParams} from "react-router";
-import {useDispatch} from "react-redux";
 import AssignmentControlBar from "./AssignmentControlBar";
 import {useSelector} from "react-redux";
-import {deleteAssignment} from "./reducer";
 import DeleteAssignmentDialog from "./DeleteAssignmentDialog";
 
 
 export default function Assignments() {
     const { cid } = useParams();
-    const dispatch = useDispatch();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
     const courseAssignment: any = assignments.filter(

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {MdDone} from "react-icons/md";
 
 export default function BooleanStateVariables() {
     const [done, setDone] = useState(true);
