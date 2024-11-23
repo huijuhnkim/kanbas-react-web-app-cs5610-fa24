@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Route, Routes} from "react-router-dom";
-import {enrollments} from "../Database";
+// import {enrollments} from "../Database";
 import ProtectedRoute from "./ProtectedRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
@@ -16,14 +16,10 @@ export default function Dashboard(
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-
-    let currentUserCourseList = courses.filter((course: any) =>
-        enrollments.some((enrollment: any) =>
-            enrollment.user === currentUser._id && enrollment.course === course._id));
-
     function isEnrolled(course: any) {
-        return enrollments.find((enrollment) =>
-            enrollment.user === currentUser._id && enrollment.course === course._id) !== undefined;
+        // return enrollments.find((enrollment) =>
+        //     enrollment.user === currentUser._id && enrollment.course === course._id) !== undefined;
+        return true
     }
 
     return (
@@ -37,7 +33,7 @@ export default function Dashboard(
                         addNewCourse={addNewCourse}
                         updateCourse={updateCourse}/>
                     <FacultyDashboardCourses
-                        currentUserCourseList={currentUserCourseList}
+                        currentUserCourseList={courses}
                         deleteCourse={deleteCourse}
                         setCourse={setCourse}/>
                 </ProtectedRoute>
