@@ -17,14 +17,6 @@ export default function Modules() {
     const { modules } = useSelector((state: any) => state.modulesReducer);
     const dispatch = useDispatch();
 
-    const createModuleForCourse = async () => {
-        if (!cid) return;
-        const newModule = { name: moduleName, course: cid };
-        const module = await coursesClient.createModuleForCourse(cid, newModule);
-        dispatch(addModule(module));
-    };
-
-
     const fetchModules = async () => {
         const modules = await coursesClient.findModulesForCourse(cid as string);
         dispatch(setModules(modules));
@@ -32,6 +24,13 @@ export default function Modules() {
     useEffect(() => {
         fetchModules();
     }, []);
+
+    const createModuleForCourse = async () => {
+        if (!cid) return;
+        const newModule = { name: moduleName, course: cid };
+        const module = await coursesClient.createModuleForCourse(cid, newModule);
+        dispatch(addModule(module));
+    };
 
     const removeModule = async (moduleId: string) => {
         await modulesClient.deleteModule(moduleId);
@@ -53,9 +52,7 @@ export default function Modules() {
                              addModule={createModuleForCourse} />
 
             <ul id="wd-modules" className="list-group rounded-0">
-                {modules
-                    // .filter((module: any) => module.course === cid)
-                    .map((module: any) => (
+                {modules.map((module: any) => (
                         <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
                             <div className="wd-title p-3 ps-2 bg-secondary">
                                 <BsGripVertical className="me-2 fs-3"/>

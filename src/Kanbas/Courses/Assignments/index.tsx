@@ -6,20 +6,41 @@ import {IoEllipsisVertical} from "react-icons/io5";
 
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import {Link} from "react-router-dom";
+import * as coursesClient from "../client"
+import * as assignmentsClient from "../client"
 
 import {useParams} from "react-router";
 import AssignmentControlBar from "./AssignmentControlBar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DeleteAssignmentDialog from "./DeleteAssignmentDialog";
-
+import {useEffect, useState} from "react";
+import {addAssignment, deleteAssignment, setAssignments} from "./reducer";
 
 export default function Assignments() {
     const { cid } = useParams();
+    const [assignmentName, setAssignmentName] = useState("");
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const dispatch = useDispatch();
 
-    const courseAssignment: any = assignments.filter(
-        (assignment: any) => assignment.course === cid
-    );
+    const fetchAssignments = async () => {
+        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+    useEffect(() => {
+        fetchAssignments();
+    }, []);
+
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = {name: assignmentName, course: cid};
+        const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+        dispatch(addAssignment(assignment));
+    }
+
+    const removeAssignment = async (assignmentId: string) => {
+        await assignmentsClient.deleteCourse(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+    }
 
     return (
 
@@ -34,7 +55,7 @@ export default function Assignments() {
                         <AssignmentControlButtons/></div>
 
                     <ul className="list-group">
-                        {courseAssignment.map((assignment: any) => (
+                        {assignments.map((assignment: any) => (
                             <li className="list-group-item wd-flex-row-container flex-align-items-stretch">
                                 <div className={"wd-width-75px"}>
                                     <BsGripVertical className="me-2"/>
@@ -61,7 +82,7 @@ export default function Assignments() {
                                     <FaCheckCircle className="text-success me-3"/>
                                     <IoEllipsisVertical className="ms-2"/>
 
-                                    <DeleteAssignmentDialog assignmentId={assignment._id}/>
+                                    <DeleteAssignmentDialog assignmentId={assignment._id} removeAssignment={removeAssignment}/>
                                 </span>
                             </li>
                         ))}

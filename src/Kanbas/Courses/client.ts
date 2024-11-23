@@ -6,11 +6,6 @@ export const fetchAllCourses = async () => {
     return data;
 };
 
-export const findModulesForCourse = async (courseId: string) => {
-    const response = await axios
-        .get(`${COURSES_API}/${courseId}/modules`);
-    return response.data;
-};
 
 export const deleteCourse = async (id: string) => {
     const { data } = await axios.delete(`${COURSES_API}/${id}`);
@@ -22,6 +17,12 @@ export const updateCourse = async (course: any) => {
     return data;
 };
 
+export const findModulesForCourse = async (courseId: string) => {
+    const response = await axios
+        .get(`${COURSES_API}/${courseId}/modules`);
+    return response.data;
+};
+
 export const createModuleForCourse = async (courseId: string, module: any) => {
     const response = await axios.post(
         `${COURSES_API}/${courseId}/modules`,
@@ -29,6 +30,19 @@ export const createModuleForCourse = async (courseId: string, module: any) => {
     );
     return response.data;
 };
+
+export const findAssignmentsForCourse = async (courseId: string) => {
+    const response = await axios.get(`${COURSES_API}/${courseId}/assignments`);
+    return response.data;
+}
+
+export const createAssignmentForCourse = async (courseId: string, assignment: any) => {
+    const response = await axios.post(`${COURSES_API}/${courseId}/assignments`, assignment);
+    return response.data;
+}
+
+
+
 
 
 
