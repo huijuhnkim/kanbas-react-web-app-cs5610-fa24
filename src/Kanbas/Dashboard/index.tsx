@@ -14,11 +14,7 @@ export default function Dashboard(
         addNewCourse: () => void; deleteCourse: (course: any) => void;
         updateCourse: () => void; }) {
 
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
-
     function isEnrolled(course: any) {
-        // return enrollments.find((enrollment) =>
-        //     enrollment.user === currentUser._id && enrollment.course === course._id) !== undefined;
         return true
     }
 
