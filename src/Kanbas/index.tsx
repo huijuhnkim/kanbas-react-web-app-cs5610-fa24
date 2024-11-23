@@ -8,10 +8,10 @@ import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
 import ProtectedRoute from "./Account/ProtectedRoute";
-import * as db from "./Database";
 
 import Session from "./Account/Session";
 import * as userClient from "./Account/client"
+import * as courseClient from "./Courses/client"
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>([]);
@@ -35,14 +35,20 @@ export default function Kanbas() {
         _id: "1234", name: "New Course", number: "New Number",
         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
     });
+
     const addNewCourse = async () => {
         const newCourse = await userClient.createCourse(course)
         setCourses([...courses, newCourse]);
     };
-    const deleteCourse = (courseId: any) => {
+
+    const deleteCourse = async (courseId: any) => {
+        const status = await courseClient.deleteCourse(courseId);
         setCourses(courses.filter((course) => course._id !== courseId));
     };
-    const updateCourse = () => {
+
+    const updateCourse = async () => {
+        await courseClient.updateCourse(course)
+
         setCourses(
             courses.map((c) => {
                 if (c._id === course._id) {
