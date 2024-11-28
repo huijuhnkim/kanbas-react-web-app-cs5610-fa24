@@ -1,5 +1,5 @@
 import {FaCalendar} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useParams} from "react-router";
 import {addAssignment, updateAssignment} from "./reducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,17 +11,20 @@ export default function AssignmentEditor() {
     const {cid} = useParams();
     const {aid} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     let assignment = assignments.find((assignment: any) => assignment._id === aid);
 
     const handleSave = async () => {
-        // if (assignment.title !== "") {
-        //     assignment = await assignmentsClient.updateAssignment(assignment);
-        //     dispatch(updateAssignment(assignment))
-        // } else if (cid) {
-        //     assignment = await coursesClient.createAssignmentForCourse(cid, assignment);
-        //     dispatch(addAssignment(assignment));
-        // }
+        if (assignment.title !== "") {
+            assignment = await assignmentsClient.updateAssignment(assignment);
+            dispatch(updateAssignment(assignment))
+            navigate(`/Kanbas/Courses/${cid}/Assignments/`);
+        } else if (cid) {
+            assignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+            dispatch(addAssignment(assignment));
+            navigate(`/Kanbas/Courses/${cid}/Assignments/`);
+        }
     }
 
     return (
@@ -165,7 +168,7 @@ export default function AssignmentEditor() {
                                            className="form-control"
                                            value={assignment.availableUntil}
                                            onChange={(e) => dispatch(updateAssignment({
-                                               ...assignment, points: e.target.value
+                                               ...assignment, availableUntil: e.target.value
                                            }))}/>
                                     <span className="input-group-text"><FaCalendar/></span>
                                 </div>
@@ -185,13 +188,13 @@ export default function AssignmentEditor() {
                 </Link>
 
 
-                <Link to={`/Kanbas/Courses/${cid}/Assignments/`}>
+                {/*<Link to={`/Kanbas/Courses/${cid}/Assignments/`}>*/}
                     <button id="wd-add-assignment-group"
                             className={"btn btn-danger me-2"}
                             onClick={handleSave}>
                         Save
                     </button>
-                </Link>
+                {/*</Link>*/}
 
             </div>
         </div>
