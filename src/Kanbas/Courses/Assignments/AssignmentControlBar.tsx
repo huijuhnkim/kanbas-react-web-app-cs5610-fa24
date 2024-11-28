@@ -3,9 +3,10 @@ import {FaPlus} from "react-icons/fa6";
 import {Link} from "react-router-dom";
 import {useParams} from "react-router";
 import {useDispatch} from "react-redux";
-import {addAssignment} from "./reducer";
 
-export default function AssignmentControlBar() {
+export default function AssignmentControlBar({createAssignmentForCourse}:{
+    createAssignmentForCourse: any
+}) {
     const {cid} = useParams()
 
     let newAssignment = {
@@ -39,13 +40,13 @@ export default function AssignmentControlBar() {
                     Group
                 </button>
 
-                <Link to={`/Kanbas/Courses/${cid}/Assignments/${newAssignment._id}`}>
+                {/*<Link to={`/Kanbas/Courses/${cid}/Assignments/${newAssignment._id}`}>*/}
                     <button id="wd-add-assignment"
                             className={"btn  btn-danger"}
-                            onClick={()=>dispatch(addAssignment(newAssignment))}>
+                            onClick={createAssignmentForCourse}>
                         <FaPlus/> Assignment
                     </button>
-                </Link>
+                {/*</Link>*/}
 
             </div>
         </div>

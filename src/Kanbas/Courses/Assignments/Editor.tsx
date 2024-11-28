@@ -3,29 +3,26 @@ import {Link} from "react-router-dom";
 import { useParams} from "react-router";
 import {addAssignment, updateAssignment} from "./reducer";
 import {useDispatch, useSelector} from "react-redux";
+import * as assignmentsClient from "./client"
+import * as coursesClient from "../client"
 
 export default function AssignmentEditor() {
-
-    function isNewAssignment() {
-        console.log(`assignment ID: ${assignment._id}, aid: ${aid}`)
-        return (assignment._id !== aid)
-    }
-
-    function handleSave() {
-        if (isNewAssignment()) {
-            console.log("adding assignment...")
-            dispatch(addAssignment(assignment))
-        } else {
-            console.log("updating assignment...")
-            dispatch(updateAssignment(assignment))
-        }
-    }
 
     const {cid} = useParams();
     const {aid} = useParams();
     const dispatch = useDispatch();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     let assignment = assignments.find((assignment: any) => assignment._id === aid);
+
+    const handleSave = async () => {
+        // if (assignment.title !== "") {
+        //     assignment = await assignmentsClient.updateAssignment(assignment);
+        //     dispatch(updateAssignment(assignment))
+        // } else if (cid) {
+        //     assignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+        //     dispatch(addAssignment(assignment));
+        // }
+    }
 
     return (
         <div>

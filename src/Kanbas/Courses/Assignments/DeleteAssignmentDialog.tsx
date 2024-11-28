@@ -1,16 +1,13 @@
-import {useDispatch} from "react-redux";
-import {deleteAssignment} from "../Assignments/reducer";
-import * as assignmentsClient from "../client";
-
 export default function DeleteAssignmentDialog(
-    { assignmentId, removeAssignment } : {
+    { assignmentId, removeAssignment, modalId } : {
         assignmentId: string;
         removeAssignment: (assignmentId: string) => void;
+        modalId: string;
     }
 ) {
 
     return (
-        <div id="wd-delete-assignment-dialog" className="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div id={modalId} className="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">

@@ -7,6 +7,7 @@ import {IoEllipsisVertical} from "react-icons/io5";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import {Link} from "react-router-dom";
 import * as coursesClient from "../client"
+import * as assignmentsClient from "./client"
 
 import {useParams} from "react-router";
 import AssignmentControlBar from "./AssignmentControlBar";
@@ -29,22 +30,22 @@ export default function Assignments() {
     }, []);
 
 
-    // const createAssignmentForCourse = async () => {
-    //     if (!cid) return;
-    //     const newAssignment = {name: assignmentName, course: cid};
-    //     const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
-    //     dispatch(addAssignment(assignment));
-    // }
-    //
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = {name: "New Assignment", course: cid};
+        const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+        dispatch(addAssignment(assignment));
+    }
+
     const removeAssignment = async (assignmentId: string) => {
-        // await assignmentsClient.deleteCourse(assignmentId);
-        // dispatch(deleteAssignment(assignmentId));
+        await assignmentsClient.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
     }
 
     return (
 
         <div id="wd-assignments">
-            <AssignmentControlBar/>
+            <AssignmentControlBar createAssignmentForCourse={createAssignmentForCourse} />
 
             <br/>
             <ul id="wd-modules" className="list-group rounded-0">
@@ -77,12 +78,13 @@ export default function Assignments() {
                                 <span className="float-end">
                                     <FaTrash className="me-4"
                                              data-bs-toggle="modal"
-                                             data-bs-target="#wd-delete-assignment-dialog"/>
+                                             data-bs-target={`#wd-delete-assignment-dialog-${assignment._id}`}/>
                                     <FaCheckCircle className="text-success me-3"/>
                                     <IoEllipsisVertical className="ms-2"/>
 
                                     <DeleteAssignmentDialog assignmentId={assignment._id}
-                                                            removeAssignment={removeAssignment}/>
+                                                            removeAssignment={removeAssignment}
+                                                            modalId={`wd-delete-assignment-dialog-${assignment._id}`}/>
                                 </span>
                             </li>
                         ))}
