@@ -137,12 +137,12 @@ export default function AssignmentEditor() {
                             <b>Due</b>
                         </label>
                         <div className="input-group mb-3" id={"wd-assignment-due"}>
-                            <input type="text" className="form-control"
+                            <input type="datetime-local" className="form-control"
                                    value={assignment.due}
                                    onChange={(e) => dispatch(updateAssignment({
                                        ...assignment, due: e.target.value
                                    }))}/>
-                            <span className="input-group-text"><FaCalendar/></span>
+                            {/*<span className="input-group-text"><FaCalendar/></span>*/}
                         </div>
 
                         <div className="mt-3 row">
@@ -151,12 +151,12 @@ export default function AssignmentEditor() {
                                     <b>Available from</b>
                                 </label>
                                 <div className="input-group" id={"wd-assignment-from"}>
-                                    <input type="text" className="form-control"
+                                    <input type="datetime-local" className="form-control"
                                            value={assignment.availableFrom}
                                            onChange={(e) => dispatch(updateAssignment({
                                                ...assignment, availableFrom: e.target.value
                                            }))}/>
-                                    <span className="input-group-text"><FaCalendar/></span>
+                                    {/*<span className="input-group-text"><FaCalendar/></span>*/}
                                 </div>
                             </div>
                             <div className={"col md-6"}>
@@ -164,13 +164,13 @@ export default function AssignmentEditor() {
                                     <b>Until</b>
                                 </label>
                                 <div className="input-group" id={"wd-assignment-until"}>
-                                    <input type="text"
+                                    <input type="datetime-local"
                                            className="form-control"
                                            value={assignment.availableUntil}
                                            onChange={(e) => dispatch(updateAssignment({
                                                ...assignment, availableUntil: e.target.value
                                            }))}/>
-                                    <span className="input-group-text"><FaCalendar/></span>
+                                    {/*<span className="input-group-text"><FaCalendar/></span>*/}
                                 </div>
                             </div>
                         </div>
