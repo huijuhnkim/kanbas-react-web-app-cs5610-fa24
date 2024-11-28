@@ -42,6 +42,8 @@ export default function Assignments() {
         dispatch(deleteAssignment(assignmentId));
     }
 
+    // random stuff
+
     return (
 
         <div id="wd-assignments">
@@ -91,8 +93,6 @@ export default function Assignments() {
                     </ul>
                 </li>
             </ul>
-
-
         </div>
     );
 }
