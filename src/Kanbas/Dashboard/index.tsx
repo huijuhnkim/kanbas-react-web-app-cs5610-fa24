@@ -1,11 +1,10 @@
-import { useSelector } from "react-redux";
 import { Route, Routes} from "react-router-dom";
-// import {enrollments} from "../Database";
-import ProtectedRoute from "./ProtectedRoute";
+import FacultyRoute from "./FacultyRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
 import StudentDashboardAllCourses from "./StudentDashboardAllCourses";
 import StudentDashboardEnrolledCourses from "./StudentDashboardEnrolledCourses";
+import StudentRoute from "./StudentRoute";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -14,11 +13,7 @@ export default function Dashboard(
         addNewCourse: () => void; deleteCourse: (course: any) => void;
         updateCourse: () => void; }) {
 
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
-
     function isEnrolled(course: any) {
-        // return enrollments.find((enrollment) =>
-        //     enrollment.user === currentUser._id && enrollment.course === course._id) !== undefined;
         return true
     }
 
@@ -26,24 +21,29 @@ export default function Dashboard(
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1>
             <hr/>
-                <ProtectedRoute>
-                    <DashboardControlBar
-                        course={course}
-                        setCourse={setCourse}
-                        addNewCourse={addNewCourse}
-                        updateCourse={updateCourse}/>
-                    <FacultyDashboardCourses
-                        currentUserCourseList={courses}
-                        deleteCourse={deleteCourse}
-                        setCourse={setCourse}/>
-                </ProtectedRoute>
+            <FacultyRoute>
+                <DashboardControlBar
+                    course={course}
+                    setCourse={setCourse}
+                    addNewCourse={addNewCourse}
+                    updateCourse={updateCourse}/>
+                <FacultyDashboardCourses
+                    currentUserCourseList={courses}
+                    deleteCourse={deleteCourse}
+                    setCourse={setCourse}/>
+            </FacultyRoute>
 
-            <div id={"wd-enroll"}>
-                <button className={"btn btn-primary float-end"}
-                        id={"wd-add-new-course-click"}>
-                    Enrollments
-                </button>
-            </div>
+            <StudentRoute>
+                <div id={"wd-enroll"}>
+                    <button className={"btn btn-primary float-end"}
+                            id={"wd-add-new-course-click"}>
+                        Enrollments
+                    </button>
+                </div>
+
+                <StudentDashboardAllCourses courses={courses} isEnrolled={isEnrolled}/>
+
+            </StudentRoute>
 
             <Routes>
                 <Route path={"/AllCourses"}

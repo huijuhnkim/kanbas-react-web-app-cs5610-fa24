@@ -1,31 +1,31 @@
 import {FaCalendar} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useParams} from "react-router";
 import {addAssignment, updateAssignment} from "./reducer";
 import {useDispatch, useSelector} from "react-redux";
+import * as assignmentsClient from "./client"
+import * as coursesClient from "../client"
 
 export default function AssignmentEditor() {
-
-    function isNewAssignment() {
-        console.log(`assignment ID: ${assignment._id}, aid: ${aid}`)
-        return (assignment._id !== aid)
-    }
-
-    function handleSave() {
-        if (isNewAssignment()) {
-            console.log("adding assignment...")
-            dispatch(addAssignment(assignment))
-        } else {
-            console.log("updating assignment...")
-            dispatch(updateAssignment(assignment))
-        }
-    }
 
     const {cid} = useParams();
     const {aid} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     let assignment = assignments.find((assignment: any) => assignment._id === aid);
+
+    const handleSave = async () => {
+        if (assignment.title !== "") {
+            assignment = await assignmentsClient.updateAssignment(assignment);
+            dispatch(updateAssignment(assignment))
+            navigate(`/Kanbas/Courses/${cid}/Assignments/`);
+        } else if (cid) {
+            assignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+            dispatch(addAssignment(assignment));
+            navigate(`/Kanbas/Courses/${cid}/Assignments/`);
+        }
+    }
 
     return (
         <div>
@@ -137,12 +137,12 @@ export default function AssignmentEditor() {
                             <b>Due</b>
                         </label>
                         <div className="input-group mb-3" id={"wd-assignment-due"}>
-                            <input type="text" className="form-control"
+                            <input type="datetime-local" className="form-control"
                                    value={assignment.due}
                                    onChange={(e) => dispatch(updateAssignment({
                                        ...assignment, due: e.target.value
                                    }))}/>
-                            <span className="input-group-text"><FaCalendar/></span>
+                            {/*<span className="input-group-text"><FaCalendar/></span>*/}
                         </div>
 
                         <div className="mt-3 row">
@@ -151,12 +151,12 @@ export default function AssignmentEditor() {
                                     <b>Available from</b>
                                 </label>
                                 <div className="input-group" id={"wd-assignment-from"}>
-                                    <input type="text" className="form-control"
+                                    <input type="datetime-local" className="form-control"
                                            value={assignment.availableFrom}
                                            onChange={(e) => dispatch(updateAssignment({
                                                ...assignment, availableFrom: e.target.value
                                            }))}/>
-                                    <span className="input-group-text"><FaCalendar/></span>
+                                    {/*<span className="input-group-text"><FaCalendar/></span>*/}
                                 </div>
                             </div>
                             <div className={"col md-6"}>
@@ -164,13 +164,13 @@ export default function AssignmentEditor() {
                                     <b>Until</b>
                                 </label>
                                 <div className="input-group" id={"wd-assignment-until"}>
-                                    <input type="text"
+                                    <input type="datetime-local"
                                            className="form-control"
                                            value={assignment.availableUntil}
                                            onChange={(e) => dispatch(updateAssignment({
-                                               ...assignment, points: e.target.value
+                                               ...assignment, availableUntil: e.target.value
                                            }))}/>
-                                    <span className="input-group-text"><FaCalendar/></span>
+                                    {/*<span className="input-group-text"><FaCalendar/></span>*/}
                                 </div>
                             </div>
                         </div>
@@ -188,13 +188,13 @@ export default function AssignmentEditor() {
                 </Link>
 
 
-                <Link to={`/Kanbas/Courses/${cid}/Assignments/`}>
+                {/*<Link to={`/Kanbas/Courses/${cid}/Assignments/`}>*/}
                     <button id="wd-add-assignment-group"
                             className={"btn btn-danger me-2"}
                             onClick={handleSave}>
                         Save
                     </button>
-                </Link>
+                {/*</Link>*/}
 
             </div>
         </div>

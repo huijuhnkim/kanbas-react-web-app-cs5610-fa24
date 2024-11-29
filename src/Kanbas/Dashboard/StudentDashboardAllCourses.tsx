@@ -24,13 +24,13 @@ export default function StudentDashboardAllCourses(
                                         {course.description} </p>
 
                                     {!isEnrolled(course) &&
-                                        <button className="btn btn-primary">
+                                        <button className="btn btn-primary float-end mb-3">
                                             Enroll
                                         </button>
                                     }
 
                                     {isEnrolled(course) &&
-                                        <button className={"btn btn-danger float-end"}>
+                                        <button className={"btn btn-danger float-end mb-3"}>
                                             Unenroll
                                         </button>
                                     }
