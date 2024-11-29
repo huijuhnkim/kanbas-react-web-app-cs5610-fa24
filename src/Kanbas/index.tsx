@@ -19,16 +19,38 @@ export default function Kanbas() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     const fetchCourses = async () => {
-        try {
-            const courses = await userClient.findMyCourses();
-            setCourses(courses);
-        } catch (error) {
-            console.error(error);
+        if (!currentUser) return
+        if (currentUser.role === "FACULTY") {
+            try {
+                const courses = await userClient.findMyCourses();
+                setCourses(courses);
+            } catch (error) {
+                console.error(error);
+            }
+        } else if (currentUser.role === "STUDENT") {
+            try {
+                const courses = await userClient.fetchAllCourses();
+                setCourses(courses);
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
     useEffect(() => {
         fetchCourses();
     }, [currentUser]);
+
+    // const fetchAllCourses = async () => {
+    //     try {
+    //         const courses = await userClient.fetchAllCourses();
+    //         setCourses(courses);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+    // useEffect(() => {
+    //     fetchAllCourses();
+    // }, [currentUser]);
 
 
     const [course, setCourse] = useState<any>({
