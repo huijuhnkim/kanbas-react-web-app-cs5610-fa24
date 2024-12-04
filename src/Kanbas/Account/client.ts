@@ -59,4 +59,9 @@ export const findUsersByPartialName = async (name: String) => {
     return response.data;
 }
 
+export const findUsersById = async (id: string) => {
+    const response = await axiosWithCredentials.get(`${USERS_API}/${id}`);
+    return response.data;
+}
+
 
