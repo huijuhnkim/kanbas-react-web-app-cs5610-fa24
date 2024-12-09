@@ -21,4 +21,4 @@ export default function App() {
     );
 }
 
-// random text for pushing assignment 6
+// random text for pushing project branch
