@@ -3,10 +3,11 @@ import FacultyRoute from "./FacultyRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
 import StudentRoute from "./StudentRoute";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import * as enrollmentClient from "./client"
 import {useEffect, useState} from "react";
 import StudentDashboardCourses from "./StudentDashboardCourses";
+import {addEnrollment, setEnrollments} from "./EnrollmentReducer";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -16,14 +17,15 @@ export default function Dashboard(
         updateCourse: () => void; }) {
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const [enrollments, setEnrollments] = useState<any[]>([]);
+    const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+    const dispatch = useDispatch();
     const [isEnabled, setIsEnabled] = useState<boolean>(true);
 
     const fetchEnrollments = async () => {
         if (!currentUser) return
         try {
             const enrollments = await enrollmentClient.fetchEnrollments()
-            setEnrollments(enrollments);
+            dispatch(setEnrollments(enrollments))
         } catch (error) {
             console.error(error);
         }
@@ -34,7 +36,7 @@ export default function Dashboard(
 
     function isEnrolled(course: any) {
         const match = enrollments.find(
-            (enrollment) => enrollment.course === course._id && enrollment.user === currentUser._id);
+            (enrollment : any) => enrollment.course === course._id && enrollment.user === currentUser._id);
 
         return !(match === undefined)
     }
