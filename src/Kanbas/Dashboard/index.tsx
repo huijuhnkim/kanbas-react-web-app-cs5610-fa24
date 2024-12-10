@@ -2,7 +2,6 @@ import {Link, Route, Routes} from "react-router-dom";
 import FacultyRoute from "./FacultyRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
-import StudentDashboardAllCourses from "./StudentDashboardAllCourses";
 import StudentRoute from "./StudentRoute";
 import {useSelector} from "react-redux";
 import * as enrollmentClient from "./client"
@@ -34,7 +33,10 @@ export default function Dashboard(
     }, []);
 
     function isEnrolled(course: any) {
-        return true
+        const match = enrollments.find(
+            (enrollment) => enrollment.course === course._id && enrollment.user === currentUser._id);
+
+        return !(match === undefined)
     }
 
     const enrolledCourses = (
@@ -52,8 +54,6 @@ export default function Dashboard(
             enrolledCourseIds.includes(course._id)
         );
     };
-
-
 
     return (
         <div id="wd-dashboard">
@@ -92,17 +92,6 @@ export default function Dashboard(
                         </button>
                     </Link>
                 )}
-
-                {/*<div id={"wd-enroll"}>*/}
-                {/*    <button className={"btn btn-primary float-end"}*/}
-                {/*            id={"wd-add-new-course-click"}>*/}
-                {/*        Enrollments*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-
-                {/*<StudentDashboardAllCourses*/}
-                {/*    courses={enrolledCourses(currentUser._id, courses, enrollments)}*/}
-                {/*    isEnrolled={isEnrolled}/>*/}
             </StudentRoute>
 
             <Routes>
