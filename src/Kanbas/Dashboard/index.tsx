@@ -3,8 +3,10 @@ import FacultyRoute from "./FacultyRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
 import StudentDashboardAllCourses from "./StudentDashboardAllCourses";
-import StudentDashboardEnrolledCourses from "./StudentDashboardEnrolledCourses";
 import StudentRoute from "./StudentRoute";
+import {useSelector} from "react-redux";
+import * as enrollmentClient from "./client"
+import {useEffect, useState} from "react";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -13,9 +15,33 @@ export default function Dashboard(
         addNewCourse: () => void; deleteCourse: (course: any) => void;
         updateCourse: () => void; }) {
 
-    function isEnrolled(course: any) {
-        return true
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+    const [enrollments, setEnrollments] = useState<any[]>([]);
+
+    const fetchEnrollments = async () => {
+        if (!currentUser) return
+        try {
+            const enrollments = await enrollmentClient.fetchEnrollments()
+            setEnrollments(enrollments);
+            // console.log(enrollments);
+        } catch (error) {
+            console.error(error);
+        }
     }
+    useEffect(() => {
+        fetchEnrollments()
+    }, []);
+
+    function isEnrolled(course: any) {
+        return false
+    }
+
+    const enrolledCourses = enrollments.filter(
+        (e: any) => e.user === currentUser._id
+    )
+
+    console.log(enrolledCourses)
 
     return (
         <div id="wd-dashboard">
@@ -42,24 +68,19 @@ export default function Dashboard(
                 </div>
 
                 <StudentDashboardAllCourses courses={courses} isEnrolled={isEnrolled}/>
-
             </StudentRoute>
 
-            <Routes>
-                <Route path={"/AllCourses"}
-                       element={<StudentDashboardAllCourses
-                           courses={courses}
-                           isEnrolled={isEnrolled}/>}
-                />
+            {/*<Routes>*/}
+            {/*    <Route path={"/AllCourses"}*/}
+            {/*           element={<StudentDashboardAllCourses*/}
+            {/*               courses={courses}*/}
+            {/*               isEnrolled={isEnrolled}/>}*/}
+            {/*    />*/}
 
-                <Route path={"/EnrolledCourses"}
-                       element={<StudentDashboardEnrolledCourses/>}
-                />
-
-            </Routes>
-
-            {/*<StudentDashboardAllCourses courses={courses} isEnrolled={isEnrolled}/>*/}
-
+            {/*    <Route path={"/EnrolledCourses"}*/}
+            {/*           element={<StudentDashboardEnrolledCourses/>}*/}
+            {/*    />*/}
+            {/*</Routes>*/}
         </div>
     );
 }

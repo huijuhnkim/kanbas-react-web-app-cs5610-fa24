@@ -40,19 +40,6 @@ export default function Kanbas() {
         fetchCourses();
     }, [currentUser]);
 
-    // const fetchAllCourses = async () => {
-    //     try {
-    //         const courses = await userClient.fetchAllCourses();
-    //         setCourses(courses);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchAllCourses();
-    // }, [currentUser]);
-
-
     const [course, setCourse] = useState<any>({
         _id: "1234", name: "New Course", number: "New Number",
         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
@@ -113,5 +100,3 @@ export default function Kanbas() {
         </Session>
     );
 }
-
-// starting attempt #2
