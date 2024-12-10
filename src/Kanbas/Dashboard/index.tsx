@@ -1,4 +1,4 @@
-import { Route, Routes} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import FacultyRoute from "./FacultyRoute";
 import DashboardControlBar from "./DashboardControlBar";
 import FacultyDashboardCourses from "./FacultyDashboardCourses";
@@ -7,6 +7,7 @@ import StudentRoute from "./StudentRoute";
 import {useSelector} from "react-redux";
 import * as enrollmentClient from "./client"
 import {useEffect, useState} from "react";
+import StudentDashboardCourses from "./StudentDashboardCourses";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
@@ -16,15 +17,14 @@ export default function Dashboard(
         updateCourse: () => void; }) {
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-
     const [enrollments, setEnrollments] = useState<any[]>([]);
+    const [isEnabled, setIsEnabled] = useState<boolean>(true);
 
     const fetchEnrollments = async () => {
         if (!currentUser) return
         try {
             const enrollments = await enrollmentClient.fetchEnrollments()
             setEnrollments(enrollments);
-            // console.log(enrollments);
         } catch (error) {
             console.error(error);
         }
@@ -34,14 +34,26 @@ export default function Dashboard(
     }, []);
 
     function isEnrolled(course: any) {
-        return false
+        return true
     }
 
-    const enrolledCourses = enrollments.filter(
-        (e: any) => e.user === currentUser._id
-    )
+    const enrolledCourses = (
+        userId: string,
+        courses: any[],
+        enrollments: any[]
+    ): any[] => {
+        // Find all course IDs the user is enrolled in
+        const enrolledCourseIds = enrollments
+            .filter(enrollment => enrollment.user === userId)
+            .map(enrollment => enrollment.course);
 
-    console.log(enrolledCourses)
+        // Filter courses to only include those the user is enrolled in
+        return courses.filter(course =>
+            enrolledCourseIds.includes(course._id)
+        );
+    };
+
+
 
     return (
         <div id="wd-dashboard">
@@ -60,27 +72,52 @@ export default function Dashboard(
             </FacultyRoute>
 
             <StudentRoute>
-                <div id={"wd-enroll"}>
-                    <button className={"btn btn-primary float-end"}
-                            id={"wd-add-new-course-click"}>
-                        Enrollments
-                    </button>
-                </div>
 
-                <StudentDashboardAllCourses courses={courses} isEnrolled={isEnrolled}/>
+                {isEnabled && (
+                    <Link to={"/Kanbas/Dashboard/EnrolledCourses"}>
+                        <button className={"btn btn-primary float-end"}
+                                id={"wd-add-new-course-click"}
+                                onClick={() => setIsEnabled(false)}>
+                            Show Enrolled Courses
+                        </button>
+                    </Link>
+                )}
+
+                {!isEnabled && (
+                    <Link to={"/Kanbas/Dashboard/AllCourses"}>
+                        <button className={"btn btn-danger float-end"}
+                                id={"wd-add-new-course-click"}
+                                onClick={() => setIsEnabled(true)}>
+                            Show All Courses
+                        </button>
+                    </Link>
+                )}
+
+                {/*<div id={"wd-enroll"}>*/}
+                {/*    <button className={"btn btn-primary float-end"}*/}
+                {/*            id={"wd-add-new-course-click"}>*/}
+                {/*        Enrollments*/}
+                {/*    </button>*/}
+                {/*</div>*/}
+
+                {/*<StudentDashboardAllCourses*/}
+                {/*    courses={enrolledCourses(currentUser._id, courses, enrollments)}*/}
+                {/*    isEnrolled={isEnrolled}/>*/}
             </StudentRoute>
 
-            {/*<Routes>*/}
-            {/*    <Route path={"/AllCourses"}*/}
-            {/*           element={<StudentDashboardAllCourses*/}
-            {/*               courses={courses}*/}
-            {/*               isEnrolled={isEnrolled}/>}*/}
-            {/*    />*/}
+            <Routes>
+                <Route path={"/AllCourses"}
+                       element={<StudentDashboardCourses
+                           courses={courses}
+                           isEnrolled={isEnrolled}/>}
+                />
 
-            {/*    <Route path={"/EnrolledCourses"}*/}
-            {/*           element={<StudentDashboardEnrolledCourses/>}*/}
-            {/*    />*/}
-            {/*</Routes>*/}
+                <Route path={"/EnrolledCourses"}
+                       element={<StudentDashboardCourses
+                           courses={enrolledCourses(currentUser._id, courses, enrollments)}
+                           isEnrolled={isEnrolled}/>}
+                />
+            </Routes>
         </div>
     );
 }
