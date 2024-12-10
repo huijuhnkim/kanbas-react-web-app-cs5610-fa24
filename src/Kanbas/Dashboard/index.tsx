@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import * as enrollmentClient from "./client"
 import {useEffect, useState} from "react";
 import StudentDashboardCourses from "./StudentDashboardCourses";
-import {addEnrollment, setEnrollments} from "./EnrollmentReducer";
+import {setEnrollments} from "./EnrollmentReducer";
 
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,

@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import * as enrollmentsClient from "./client"
-import {addEnrollment} from "./EnrollmentReducer";
+import {addEnrollment, deleteEnrollment} from "./EnrollmentReducer";
 
 export default function StudentDashboardCourses(
     {courses, isEnrolled} : {
@@ -18,6 +18,11 @@ export default function StudentDashboardCourses(
         const newEnrollment = await enrollmentsClient.enrollUserToCourse(currentUser._id, courseId)
         dispatch(addEnrollment(newEnrollment))
     }
+
+    const handleUnenroll = async (courseId: any) => {
+        const unenrollmentResult = await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
+        dispatch(deleteEnrollment(unenrollmentResult));
+    };
 
     return (
         <div id="wd-dashboard-courses" className="row">
@@ -45,13 +50,10 @@ export default function StudentDashboardCourses(
                                     }
 
                                     {isEnrolled(course) &&
-                                        <button className={"btn btn-danger float-end mb-3"}>
+                                        <button className={"btn btn-danger float-end mb-3"} onClick={() => handleUnenroll(course._id)}>
                                             Unenroll
                                         </button>
                                     }
-
-
-
                         </div>
                     </div>
                 ))}
